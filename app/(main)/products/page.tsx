@@ -3,7 +3,6 @@ import { useState } from "react"
 import ProductsFilter from "./_components/ProductsFilter";
 import ProductsSection from "./_components/ProductsSection";
 
-
 const ProductsPage = () => {
   const [categoryId, setCategoryId] = useState("");
   const [brandId, setBrandId] = useState("");
@@ -23,8 +22,6 @@ const ProductsPage = () => {
     }
   }
 
-
-  
   return (
     <div className="container">
       <div className="flex flex-col">

@@ -118,7 +118,7 @@ const Navbar = ({ navigationData, className }: HeaderProps) => {
           </div>
 
           <div className="relative">
-            <Link href="/favorite">
+            <Link href="/wishlist">
               <div className="w-9 h-9 flex items-center justify-center">
                 <Heart
                   size={22}
