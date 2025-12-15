@@ -126,8 +126,74 @@ const skateTricks = {
   ],
 } as const;
 
+function generateTrickData(): SkateTrick[] {
+  return Array.from({ length: 30 }, () => {
+    const variant = faker.helpers.arrayElement(
+      Object.keys(skateTricks) as Array<keyof typeof skateTricks>,
+    );
+    const trickName = faker.helpers.arrayElement(skateTricks[variant]);
+    const skaterName = faker.person.fullName();
+    const attempts = faker.number.int({ min: 1, max: 50 });
+    const landed = faker.datatype.boolean(0.6);
+ 
+    const getDifficulty = (trick: string): SkateTrick["difficulty"] => {
+      const expertTricks = [
+        "Tre Flip",
+        "900",
+        "McTwist",
+        "Laser Flip",
+        "Impossible",
+      ];
+      const advancedTricks = [
+        "Hardflip",
+        "720",
+        "540",
+        "Crooked Grind",
+        "Switch Frontside Boardslide",
+      ];
+      const intermediateTricks = [
+        "Kickflip",
+        "Heelflip",
+        "Frontside 180",
+        "50-50 Grind",
+        "Boardslide",
+      ];
+ 
+      if (expertTricks.some((t) => trick.includes(t))) return "expert";
+      if (advancedTricks.some((t) => trick.includes(t))) return "advanced";
+      if (intermediateTricks.some((t) => trick.includes(t)))
+        return "intermediate";
+      return "beginner";
+    };
+ 
+    const difficulty = getDifficulty(trickName);
+ 
+    return {
+      id: faker.string.nanoid(),
+      trickName,
+      skaterName,
+      difficulty,
+      variant,
+      landed,
+      attempts,
+      bestScore: landed
+        ? faker.number.int({ min: 6, max: 10 })
+        : faker.number.int({ min: 1, max: 5 }),
+      location: faker.helpers.arrayElement(skateSpots),
+      dateAttempted:
+        faker.date
+          .between({
+            from: new Date(2023, 0, 1),
+            to: new Date(),
+          })
+          .toISOString()
+          .split("T")[0] ?? "",
+    };
+  });
+}
+
 export function DataGridDemo() {
-  const [data, setData] = React.useState<SkateTrick[]>([]);
+  const [data, setData] = React.useState<SkateTrick[]>(generateTrickData());
 
   const columns = React.useMemo<ColumnDef<SkateTrick>[]>(
     () => [
