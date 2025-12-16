@@ -18,28 +18,28 @@ import {
 import { useVirtualizer, type Virtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { toast } from "sonner";
-import { 
-  getCellKey, 
-  getIsFileCellData, 
-  getIsInPopover, 
-  getRowHeightValue, 
-  getScrollDirection, 
-  matchSelectOption, 
-  parseCellKey, 
-  scrollCellIntoView, 
-} from "@/lib/data-grid"; 
-import type { 
-  CellPosition, 
-  ContextMenuState, 
-  Direction, 
-  FileCellData, 
-  NavigationDirection, 
-  PasteDialogState, 
-  RowHeightValue, 
-  SearchState, 
-  SelectionState, 
-  UpdateCell, 
-} from "@/types/data-grid"; 
+import {
+  getCellKey,
+  getIsFileCellData,
+  getIsInPopover,
+  getRowHeightValue,
+  getScrollDirection,
+  matchSelectOption,
+  parseCellKey,
+  scrollCellIntoView,
+} from "@/lib/data-grid";
+import type {
+  CellPosition,
+  ContextMenuState,
+  Direction,
+  FileCellData,
+  NavigationDirection,
+  PasteDialogState,
+  RowHeightValue,
+  SearchState,
+  SelectionState,
+  UpdateCell,
+} from "@/types/data-grid";
 
 const DEFAULT_ROW_HEIGHT = "short";
 const OVERSCAN = 6;
@@ -431,6 +431,10 @@ function useDataGrid<TData>({
         isSelecting: false,
       });
       store.setState("rowSelection", {});
+
+      // Edite to clear focusedCell and editingCell when cleck on header
+      store.setState("focusedCell", null);
+      store.setState("editingCell", null);
     });
   }, [store]);
 
@@ -454,9 +458,9 @@ function useDataGrid<TData>({
       selectionRange:
         columnIds.length > 0 && rowCount > 0 && firstColumnId && lastColumnId
           ? {
-              start: { rowIndex: 0, columnId: firstColumnId },
-              end: { rowIndex: rowCount - 1, columnId: lastColumnId },
-            }
+            start: { rowIndex: 0, columnId: firstColumnId },
+            end: { rowIndex: rowCount - 1, columnId: lastColumnId },
+          }
           : null,
       isSelecting: false,
     });
@@ -610,8 +614,7 @@ function useDataGrid<TData>({
       }
 
       toast.success(
-        `${selectedCellsArray.length} cell${
-          selectedCellsArray.length !== 1 ? "s" : ""
+        `${selectedCellsArray.length} cell${selectedCellsArray.length !== 1 ? "s" : ""
         } copied`,
       );
     } catch (error) {
@@ -712,8 +715,7 @@ function useDataGrid<TData>({
       store.setState("cutCells", new Set(selectedCellsArray));
 
       toast.success(
-        `${selectedCellsArray.length} cell${
-          selectedCellsArray.length !== 1 ? "s" : ""
+        `${selectedCellsArray.length} cell${selectedCellsArray.length !== 1 ? "s" : ""
         } cut`,
       );
     } catch (error) {
@@ -1072,8 +1074,7 @@ function useDataGrid<TData>({
 
           if (cellsSkipped > 0) {
             toast.success(
-              `${cellsUpdated} cell${
-                cellsUpdated !== 1 ? "s" : ""
+              `${cellsUpdated} cell${cellsUpdated !== 1 ? "s" : ""
               } pasted, ${cellsSkipped} skipped`,
             );
           } else {
@@ -1096,8 +1097,7 @@ function useDataGrid<TData>({
           restoreFocus(dataGridRef.current);
         } else if (cellsSkipped > 0) {
           toast.error(
-            `${cellsSkipped} cell${
-              cellsSkipped !== 1 ? "s" : ""
+            `${cellsSkipped} cell${cellsSkipped !== 1 ? "s" : ""
             } skipped pasting for invalid data`,
           );
         }
@@ -1370,14 +1370,14 @@ function useDataGrid<TData>({
           if (rowVirtualizer) {
             const align =
               direction === "up" ||
-              direction === "pageup" ||
-              direction === "ctrl+up" ||
-              direction === "ctrl+home"
+                direction === "pageup" ||
+                direction === "ctrl+up" ||
+                direction === "ctrl+home"
                 ? "start"
                 : direction === "down" ||
-                    direction === "pagedown" ||
-                    direction === "ctrl+down" ||
-                    direction === "ctrl+end"
+                  direction === "pagedown" ||
+                  direction === "ctrl+down" ||
+                  direction === "ctrl+end"
                   ? "end"
                   : "center";
 
@@ -2244,7 +2244,7 @@ function useDataGrid<TData>({
     isScrollingResetDelay: 150,
     measureElement:
       typeof window !== "undefined" &&
-      navigator.userAgent.indexOf("Firefox") === -1
+        navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
   });
@@ -2521,11 +2521,11 @@ function useDataGrid<TData>({
             ? Array.from(currentState.selectionState.selectedCells)
             : currentState.focusedCell
               ? [
-                  getCellKey(
-                    currentState.focusedCell.rowIndex,
-                    currentState.focusedCell.columnId,
-                  ),
-                ]
+                getCellKey(
+                  currentState.focusedCell.rowIndex,
+                  currentState.focusedCell.columnId,
+                ),
+              ]
               : [];
 
         if (cellsToClear.length > 0) {

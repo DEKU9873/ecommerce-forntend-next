@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 
 
@@ -33,6 +34,8 @@ const categories = [
 
 const HomeCategoriesFilter = () => {
 
+  const router = useRouter();
+
     const [selectedCategory, setSelectedCategory] = useState("")
 
     const handleCategoryClick = (category: string) => {
@@ -62,7 +65,7 @@ const HomeCategoriesFilter = () => {
 
             <div>
                 <Button
-                // onClick={()=> navigate("/products")}
+                onClick={()=> router.push("/products")}
                     className='rounded-2xl px-6 bg-background border border-primary text-primary hover:text-background'
                 >
                     See All

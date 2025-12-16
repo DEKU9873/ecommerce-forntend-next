@@ -13,41 +13,41 @@ export interface CellSelectOption {
 
 export type CellOpts =
   | {
-    variant: "short-text";
-  }
+      variant: "short-text";
+    }
   | {
-    variant: "long-text";
-  }
+      variant: "long-text";
+    }
   | {
-    variant: "number";
-    min?: number;
-    max?: number;
-    step?: number;
-  }
+      variant: "number";
+      min?: number;
+      max?: number;
+      step?: number;
+    }
   | {
-    variant: "select";
-    options: CellSelectOption[];
-  }
+      variant: "select";
+      options: CellSelectOption[];
+    }
   | {
-    variant: "multi-select";
-    options: CellSelectOption[];
-  }
+      variant: "multi-select";
+      options: CellSelectOption[];
+    }
   | {
-    variant: "checkbox";
-  }
+      variant: "checkbox";
+    }
   | {
-    variant: "date";
-  }
+      variant: "date";
+    }
   | {
-    variant: "url";
-  }
+      variant: "url";
+    }
   | {
-    variant: "file";
-    maxFileSize?: number;
-    maxFiles?: number;
-    accept?: string;
-    multiple?: boolean;
-  };
+      variant: "file";
+      maxFileSize?: number;
+      maxFiles?: number;
+      accept?: string;
+      multiple?: boolean;
+    };
 
 export interface UpdateCell {
   rowIndex: number;

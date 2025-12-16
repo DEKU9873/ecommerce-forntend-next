@@ -1,27 +1,28 @@
 "use client";
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
-import { categoryColumns } from "./_components/categoryColumns";
-import CreateCategoryDialog from "./_components/CreateCategoryDialog";
-import { categories } from "@/data/categoriesData";
-import Header from "@/components/shared/toolbar/Header";
 
-const CategoriesPage = () => {
+import Header from "@/components/shared/toolbar/Header";
+import CreateSubcategoryDialog from "./_components/CreateSubcategoryDialog";
+import { subcategoryColumns } from "./_components/SubcategoryColumns";
+import { subcategories } from "@/data/subcategoriesData";
+
+const SubcategoriesPage = () => {
   return (
     <div>
       <DataTable
-        columns={categoryColumns}
-        data={categories}
+        columns={subcategoryColumns}
+        data={subcategories}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
       >
-        <Header title="Categories" />
+        <Header title="Subcategories" />
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center space-x-4">
             <Input placeholder="Search..." className="w-70" />
           </div>
-          <CreateCategoryDialog />
+          <CreateSubcategoryDialog />
         </div>
         <div className="w-[300px] space-y-4"></div>
       </DataTable>
@@ -29,4 +30,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default SubcategoriesPage;

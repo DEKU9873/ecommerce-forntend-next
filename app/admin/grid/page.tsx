@@ -193,7 +193,7 @@ function generateTrickData(): SkateTrick[] {
 }
 
 export function DataGridDemo() {
-  const [data, setData] = React.useState<SkateTrick[]>(generateTrickData());
+  const [data, setData] = React.useState<SkateTrick[]>([]);
 
   const columns = React.useMemo<ColumnDef<SkateTrick>[]>(
     () => [

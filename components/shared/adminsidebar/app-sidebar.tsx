@@ -40,7 +40,7 @@ const data = {
             items: [
                 { title: "Products", url: "/admin/products" },
                 { title: "Categories", url: "/admin/categories" },
-                { title: "Subcategories", url: "/admin/sub-categories" },
+                { title: "Subcategories", url: "/admin/subcategories" },
                 { title: "Brands", url: "/admin/brands" },
                 { title: "Orders", url: "/admin/orders" },
             ],
