@@ -20,15 +20,14 @@ import {
 
 interface Option {
     label: string;
-    value: number;
-    /** optional count to display on the right (e.g. number of items in that status) */
+    value: string | number;    
     count?: number;
 }
 
 interface MultiSelectProps {
     options: Option[];
-    value: number[];
-    onChange: (value: number[]) => void;
+    value: (string | number)[];
+    onChange: (value: (string | number)[]) => void;
     placeholder?: string;
 }
 
@@ -38,8 +37,8 @@ export function MultiSelect({
     onChange,
     placeholder = "Status",
 }: MultiSelectProps) {
-    const toggleValue = (val: number) => {
-        if (value.includes(val)) {
+    const toggleValue = (val: string | number) => {
+                if (value.includes(val)) {
             onChange(value.filter((v) => v !== val));
         } else {
             onChange([...value, val]);

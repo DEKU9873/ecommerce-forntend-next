@@ -14,8 +14,8 @@ import { brands } from "@/data/brandsData";
 import DatePicker from "@/components/shared/toolbar/DatePicker";
 
 const ProductsPage = () => {
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [selectedBrands, setSelectedBrands] = useState<number[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<(string | number)[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<(string | number)[]>([]);
   const categoryOptions = categories.map((category) => ({
     label: category.name,
     value: category.id,

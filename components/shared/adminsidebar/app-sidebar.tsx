@@ -43,6 +43,7 @@ const data = {
                 { title: "Subcategories", url: "/admin/subcategories" },
                 { title: "Brands", url: "/admin/brands" },
                 { title: "Orders", url: "/admin/orders" },
+                { title: "Delivery Map", url: "/admin/delivery-map" },
             ],
         },
         {

@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import type { IBrand } from "./brand";
 import type { ICategory } from "./category";
 import type { ISubcategory } from "./subcategory";
@@ -12,8 +13,8 @@ export interface IProduct {
   category: ICategory;
   subcategory: ISubcategory;
   brand: IBrand
-  images: string[];
-  mainImage?: string;
+  images: (string | StaticImageData)[];
+  mainImage: string | StaticImageData;
   isFeatured: boolean | undefined;
   createdAt?: string;
   updatedAt?: string;

@@ -1,0 +1,47 @@
+export const orders = [
+  {
+    id: "69392486adc54e4407fac06b",
+    user: {
+      id: "69351c663d45bcf885500061",
+      fullName: "محمد أحمد",
+      phoneNumber: "0501234567",
+      email: "mohammed@example.com",
+    },
+    orderItems: [
+      {
+        product: "69352bce3d45bcf885500499",
+        nameAr: "sdafadsf",
+        nameEn: "adsffsda",
+        quantity: 1,
+        price: 555,
+        id: "69392486adc54e4407fac06c",
+      },
+      {
+        product: "69352bb23d45bcf88550048a",
+        nameAr: "asdfafds",
+        nameEn: "afdsfdsa",
+        quantity: 1,
+        price: 4444,
+        id: "69392486adc54e4407fac06d",
+      },
+    ],
+    shippingAddress: {
+      fullName: "الحسن محمد",
+      phoneNumber: "0501234567",
+      city: "بغداد",
+      address: "شارع حيفا",
+      postalCode: "12345",
+      id: "69392486adc54e4407fac06e",
+    },
+    paymentMethod: "cash",
+    itemsPrice: 4999,
+    shippingPrice: 0,
+    taxPrice: 0,
+    totalPrice: 49,
+    isPaid: false,
+    isDelivered: false,
+    status: "pending",
+    createdAt: "2025-12-10T07:43:02.406Z",
+    updatedAt: "2025-12-10T07:43:02.406Z",
+  },
+];
