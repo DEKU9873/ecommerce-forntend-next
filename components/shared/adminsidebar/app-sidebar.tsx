@@ -44,6 +44,7 @@ const data = {
                 { title: "Brands", url: "/admin/brands" },
                 { title: "Orders", url: "/admin/orders" },
                 { title: "Delivery Map", url: "/admin/delivery-map" },
+                { title: "Delivery Path", url: "/admin/delivery-path" },
             ],
         },
         {
