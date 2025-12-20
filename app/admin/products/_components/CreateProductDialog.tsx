@@ -1,7 +1,8 @@
+"use client";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,16 +26,23 @@ import { z } from "zod";
 
 import productSchema from "@/schemas/productSchema";
 import { Textarea } from "@/components/ui/textarea";
-
 import { Checkbox } from "@/components/ui/checkbox";
+
 import { useState } from "react";
-import { subcategories } from "@/data/subcategoriesData";
-import { Combobox } from "@/components/ui/combobox";
-import { brands } from "@/data/brandsData";
 import Image from "next/image";
+
+import { Combobox } from "@/components/ui/combobox";
 import { categories } from "@/data/categoriesData";
+import { subcategories } from "@/data/subcategoriesData";
+import { brands } from "@/data/brandsData";
+import useModalStore from "@/store/modal.store";
+import { Plus } from "lucide-react";
+
 
 const CreateProductDialog = () => {
+  const { isOpen, type, openModal, closeModal } = useModalStore();
+  const [previews, setPreviews] = useState<string[]>([]);
+
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -51,37 +59,35 @@ const CreateProductDialog = () => {
     },
   });
 
-const [addModal, setAddModal] = useState(false);
-const [previews, setPreviews] = useState<string[]>([]);
-
-  const handleOpen = () => {
-    setAddModal(true);
-  };
-
-  const handleClose = () => {
-    setAddModal(false);
-  };
-
   const onSubmit = (values: z.infer<typeof productSchema>) => {
     console.log("Form Values:", values);
+
+    closeModal();
+    form.reset();
+    setPreviews([]);
   };
 
   return (
     <Dialog
-      open={addModal}
+      open={isOpen && type === "add"}
       onOpenChange={(open) => {
-        if (open) handleOpen();
-        else handleClose();
+        if (!open) {
+          closeModal();
+          setPreviews([]);
+        }
       }}
     >
-      {/* Button to open dialog */}
       <DialogTrigger asChild>
-        <Button onClick={handleOpen} className="bg-primary">
+        <Button
+          onClick={() => openModal("add")}
+          className="bg-primary"
+        >
+          <Plus />
+
           Add Product
         </Button>
       </DialogTrigger>
 
-      {/* Dialog content */}
       <DialogContent className="lg:min-w-[1100px] md:min-w-[650px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-center font-bold text-xl font-cairo text-sidebar-foreground/70">
@@ -90,48 +96,22 @@ const [previews, setPreviews] = useState<string[]>([]);
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-5">
+              {/* name */}
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name (Arabic)</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter name in Arabic" {...field} />
                     </FormControl>
-                    <FormDescription>Write the name in Arabic</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-
-
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description (Arabic)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter description in Arabic"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Write the description in Arabic
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
 
               <FormField
                 control={form.control}
@@ -140,28 +120,25 @@ const [previews, setPreviews] = useState<string[]>([]);
                   <FormItem>
                     <FormLabel>Price</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Enter price" {...field} />
+                      <Input type="number" {...field} />
                     </FormControl>
-                    <FormDescription>Write the price</FormDescription>
                     <FormMessage />
                   </FormItem>
-                )
-                }
+                )}
               />
+
               <FormField
                 control={form.control}
                 name="priceAfterDiscount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>Price After Discount</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Enter price" {...field} />
+                      <Input type="number" {...field} />
                     </FormControl>
-                    <FormDescription>Write the price</FormDescription>
                     <FormMessage />
                   </FormItem>
-                )
-                }
+                )}
               />
 
               <FormField
@@ -171,13 +148,11 @@ const [previews, setPreviews] = useState<string[]>([]);
                   <FormItem>
                     <FormLabel>Stock</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Enter stock" {...field} />
+                      <Input type="number" {...field} />
                     </FormControl>
-                    <FormDescription>Write the stock</FormDescription>
                     <FormMessage />
                   </FormItem>
-                )
-                }
+                )}
               />
 
               <FormField
@@ -188,17 +163,15 @@ const [previews, setPreviews] = useState<string[]>([]);
                     <FormLabel>Category</FormLabel>
                     <FormControl>
                       <Combobox
-                        items={categories?.map((cat) => ({ value: cat.id, label: cat.name })) || []}
+                        items={categories.map(c => ({ value: c.id, label: c.name }))}
                         {...field}
-
                         placeholder="Select category"
                       />
                     </FormControl>
-                    <FormDescription>Select a category for this product</FormDescription>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="subcategory"
@@ -207,17 +180,15 @@ const [previews, setPreviews] = useState<string[]>([]);
                     <FormLabel>Subcategory</FormLabel>
                     <FormControl>
                       <Combobox
-                        items={subcategories?.map((subcat) => ({ value: subcat.id, label: subcat.name })) || []}
+                        items={subcategories.map(s => ({ value: s.id, label: s.name }))}
                         {...field}
-
                         placeholder="Select subcategory"
                       />
                     </FormControl>
-                    <FormDescription>Select a subcategory for this product</FormDescription>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="brand"
@@ -226,17 +197,15 @@ const [previews, setPreviews] = useState<string[]>([]);
                     <FormLabel>Brand</FormLabel>
                     <FormControl>
                       <Combobox
-                        items={brands?.map((brand) => ({ value: brand.id, label: brand.name })) || []}
+                        items={brands.map(b => ({ value: b.id, label: b.name }))}
                         {...field}
-
                         placeholder="Select brand"
                       />
                     </FormControl>
-                    <FormDescription>Select a brand for this product</FormDescription>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="images"
@@ -246,72 +215,76 @@ const [previews, setPreviews] = useState<string[]>([]);
                     <FormControl>
                       <Input
                         type="file"
-                        accept="image/*"
                         multiple
+                        accept="image/*"
                         onChange={(e) => {
                           const files = e.target.files;
-                          if (files && files.length > 0) {
-                            const fileArray = Array.from(files);
+                          if (!files) return;
 
-                            const previewUrls = fileArray.map((file) => URL.createObjectURL(file));
-                            setPreviews(previewUrls);
-
-                            field.onChange(fileArray);
-                          }
+                          const arr = Array.from(files);
+                          setPreviews(arr.map(f => URL.createObjectURL(f)));
+                          field.onChange(arr);
                         }}
-
                       />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+
+              {/* description */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description (Arabic)</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Enter description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
+
+              {/* featured */}
               <FormField
                 control={form.control}
                 name="isFeatured"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 col-span-2">
+                  <FormItem className="col-span-2 flex gap-3 border p-4 rounded-md">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>
-                        Featured Product
-                      </FormLabel>
-                      <FormDescription>
-                        This product will appear on the home page
-                      </FormDescription>
-                    </div>
+                    <FormLabel>Featured Product</FormLabel>
                   </FormItem>
                 )}
               />
             </div>
 
+            {/* previews */}
             {previews.length > 0 && (
-              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {previews.map((src, index) => (
-                  <div key={index} className="flex justify-center">
-                    <Image
-                      width={200}
-                      height={200}
-                      src={src}
-                      alt={`Preview ${index}`}
-                      className="w-32 h-32 object-cover rounded-lg border"
-                    />
-                  </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {previews.map((src, i) => (
+                  <Image
+                    key={i}
+                    src={src}
+                    width={200}
+                    height={200}
+                    className="rounded border object-cover"
+                    alt={`preview-${i}`}
+                  />
                 ))}
               </div>
             )}
 
-  
-              <Button type="submit" className="w-full bg-primary">
-                Add
-              </Button>
-            
+            <Button type="submit" className="w-full bg-primary">
+              Add
+            </Button>
           </form>
         </Form>
       </DialogContent>

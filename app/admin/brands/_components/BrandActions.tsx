@@ -4,83 +4,71 @@ import { MoreHorizontal } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import type { IBrand } from "@/types/brand";
 import UpdateBrandDialog from "./UpdateBrandDialog";
-import { useState } from "react";
+import useModalStore from "@/store/modal.store";
 
 
 
 const BrandActions: React.FC<{ brand: IBrand }> = ({ brand }) => {
-   const [deleteModal, setDeleteModal] = useState(false);
-        const [editModal, setEditModal] = useState(false);
-        const [selectedItem, setSelectedItem] = useState<IBrand | null>(null);
-      
-        const handleOpenDeleteModal = () => {
-          setDeleteModal(true);
-        };
-      
-        const handleDeleteConfirm = () => {
-          console.log(`Deleting brand with ID: ${brand.id}`);
-          setDeleteModal(false);
-        };
-      
+  const { isOpen, type, data, openModal, closeModal } = useModalStore();
 
-        const handleCloseDeleteModal = () => {
-          setDeleteModal(false);
-        };
-      
-        const handleOpenEditModal = () => {
-          setSelectedItem(brand);
-          setEditModal(true);
-        };
-      
-        const handleCloseEditModal = () => {
-          setEditModal(false);
-        };
-   
+  const handleDeleteConfirm = () => {
+    console.log(`Deleting brand with ID: ${data.id}`);
+    closeModal();
+  };
 
-    return (
-        <>
-            {deleteModal && (
-                <DeleteConfirmationDialog
-                    isOpen={deleteModal}
-                    onClose={handleCloseDeleteModal}
-                    onConfirm={handleDeleteConfirm}
-                />
-            )}
+  return (
+    <>
+      {isOpen && type === "delete" && (
+        <DeleteConfirmationDialog
+          isOpen={true}
+          onClose={closeModal}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
 
-            {
-                editModal && selectedItem && (
-                    <UpdateBrandDialog
-                        data={selectedItem}
-                        isOpen={editModal}
-                        onClose={handleCloseEditModal}
-                    />
-                )
-            }
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem
-                        onClick={() => navigator.clipboard.writeText(brand.id)}
-                    >
-                        Copy brand ID
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleOpenDeleteModal} className="text-destructive">
-                        Delete brand
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleOpenEditModal} >
-                        Edit brand
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </>
-    );
+      {isOpen && type === "edit" && data && (
+        <UpdateBrandDialog
+          data={data}
+          isOpen={true}
+          onClose={closeModal}
+        />
+      )}
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(brand.id)}
+          >
+            Copy brand ID
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={() => openModal("delete", brand)}
+            className="text-destructive"
+          >
+            Delete brand
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => openModal("edit", brand)}
+          >
+            Edit brand
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
 };
 
 export default BrandActions;

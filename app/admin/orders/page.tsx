@@ -9,48 +9,25 @@ import { useState } from "react";
 import DatePicker from "@/components/shared/toolbar/DatePicker";
 import { orderColumns } from "./_components/orderColumns";
 import { orders } from "@/data/ordersData";
+import { DeliveryState, PaymentState, stateFilter } from "@/constant";
 
 const OrderPage = () => {
-const [selectedStatus, setSelectedStatus] = useState<(string | number)[]>([]);
-const [selectedPaymentStatus, setSelectedPaymentStatus] = useState<(string | number)[]>([]);
-const [selectedDeliveryStatus, setSelectedDeliveryStatus] = useState<(string | number)[]>([]);
+  const [filters, setFilters] = useState<{ status: (string | number)[]; payment: (string | number)[]; delivery: (string | number)[]; }>({
+    status: [],
+    payment: [],
+    delivery: [],
+  });
 
-    const stateFilter = [
-    { value: "all", label: "All" },
-    { value: "pending", label: "Pending" },
-    { value: "processing", label: "Processing" },
-    { value: "shipped", label: "Shipped" },
-    { value: "delivered", label: "Delivered" },
-    { value: "cancelled", label: "Cancelled" },
-  ];
+  const handleFilterChange = (
+    key: "status" | "payment" | "delivery",
+    value: (string | number)[]
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
-  const PaymentState = [
-    { value: "all", label: "All" },
-    { value: "paid", label: "Paid" },
-    { value: "unpaid", label: "Unpaid" },
-   
-  ];
-
-  const DeliveryState = [
-    { value: "all", label: "All" },
-    { value: "delivered", label: "Delivered" },
-    { value: "undelivered", label: "Undelivered" },
-  ];
-
-  const stateOptions = stateFilter.map((state) => ({
-    label: state.label,
-    value: state.value,
-  }));
-
-  const paymentStatusOptions = PaymentState.map((state) => ({
-    label: state.label,
-    value: state.value,
-  }));
-
-  const deliveryStatusOptions = DeliveryState.map((state) => ({
-    label: state.label,
-    value: state.value,
-  }));
   return (
     <div>
       <DataTable
@@ -58,32 +35,34 @@ const [selectedDeliveryStatus, setSelectedDeliveryStatus] = useState<(string | n
         data={orders}
         currentPage={1}
         totalPages={1}
-        onPageChange={() => {}}
+        onPageChange={() => { }}
       >
         <Header title="Orders" />
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center space-x-4">
             <Input placeholder="Search..." className="w-70" />
             <MultiSelect
-              options={stateOptions}
-              value={selectedStatus}
-              onChange={setSelectedStatus}
+              options={stateFilter}
+              value={filters.status}
+              onChange={(value) => handleFilterChange("status", value)}
               placeholder="Status"
             />
+
             <MultiSelect
-              options={paymentStatusOptions}
-              value={selectedPaymentStatus}
-              onChange={setSelectedPaymentStatus}
+              options={PaymentState}
+              value={filters.payment}
+              onChange={(value) => handleFilterChange("payment", value)}
               placeholder="Payment"
             />
+
             <MultiSelect
-              options={deliveryStatusOptions}
-              value={selectedDeliveryStatus}
-              onChange={setSelectedDeliveryStatus}
+              options={DeliveryState}
+              value={filters.delivery}
+              onChange={(value) => handleFilterChange("delivery", value)}
               placeholder="Delivery"
             />
- 
-            <DatePicker/>
+
+            <DatePicker />
           </div>
         </div>
         <div className="w-[300px] space-y-4"></div>
@@ -91,7 +70,7 @@ const [selectedDeliveryStatus, setSelectedDeliveryStatus] = useState<(string | n
     </div>
   );
 
-  
+
 };
 
 export default OrderPage;

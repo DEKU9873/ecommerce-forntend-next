@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useState } from "react";
+import { Package, ClipboardCheck, CreditCard, ShoppingCart } from "lucide-react";
 
 export default function OrderDetailsPage() {
 
@@ -53,22 +54,22 @@ export default function OrderDetailsPage() {
     {
       status: "Ready to Pickup",
       time: "11:00",
-      icon: "📦",
+      icon: Package,
       color: "bg-green-500",
     },
     {
       status: "Order Processed",
       time: "10:30",
-      icon: "📋",
+      icon: ClipboardCheck,
       color: "bg-gray-400",
     },
     {
       status: "Payment Confirmed",
       time: "10:00",
-      icon: "💳",
+      icon: CreditCard,
       color: "bg-gray-400",
     },
-    { status: "Order Placed", time: "09:30", icon: "🛒", color: "bg-gray-400" },
+    { status: "Order Placed", time: "09:30", icon: ShoppingCart, color: "bg-gray-400" },
   ];
 
   return (
@@ -229,7 +230,7 @@ export default function OrderDetailsPage() {
                       <div
                         className={`w-10 h-10 rounded-full ${activity.color} flex items-center justify-center text-white`}
                       >
-                        {activity.icon}
+                        <activity.icon className="w-5 h-5" />
                       </div>
                       {idx !== activityLog.length - 1 && (
                         <div className="w-0.5 h-12 bg-gray-200 mt-2"></div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,56 +11,38 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 
-import UpdateCategoryDialog from "./UpdateCategoryDialog";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { useState } from "react";
+
 import { ICategory } from "@/types/category";
+import useModalStore from "@/store/modal.store";
+import UpdateCategoryDialog from "./UpdateCategoryDialog";
 
 const CategoryActions = ({ category }: { category: ICategory }) => {
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<ICategory | null>(null);
-  console.log(selectedItem);
-
-  const handleOpenDeleteModal = () => {
-    setDeleteModal(true);
-  };
+  const { isOpen, type, data, openModal, closeModal } = useModalStore();
 
   const handleDeleteConfirm = () => {
-    console.log(`Deleting category with ID: ${category.id}`);
-    setDeleteModal(false);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setDeleteModal(false);
-  };
-
-  const handleOpenEditModal = () => {
-    setSelectedItem(category);
-    setEditModal(true);
-  };
-
-  const handleCloseEditModal = () => {
-    setEditModal(false);
+    console.log(`Deleting category with ID: ${data.id}`);
+    closeModal();
   };
 
   return (
     <>
-      {deleteModal && (
+      {isOpen && type === "delete" && (
         <DeleteConfirmationDialog
-          isOpen={deleteModal}
-          onClose={handleCloseDeleteModal}
+          isOpen={true}
+          onClose={closeModal}
           onConfirm={handleDeleteConfirm}
         />
       )}
 
-      {editModal && selectedItem && (
+      {isOpen && type === "edit" && data && (
         <UpdateCategoryDialog
-          data={selectedItem}
-          isOpen={editModal}
-          onClose={handleCloseEditModal}
+          data={data}
+          isOpen={true}
+          onClose={closeModal}
         />
       )}
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -66,21 +50,28 @@ const CategoryActions = ({ category }: { category: ICategory }) => {
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
           <DropdownMenuItem
             onClick={() => navigator.clipboard.writeText(category.id)}
           >
             Copy category ID
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
-            onClick={handleOpenDeleteModal}
+            onClick={() => openModal("delete", category)}
             className="text-destructive"
           >
             Delete Category
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleOpenEditModal}>
+
+          <DropdownMenuItem
+            onClick={() => openModal("edit", category)}
+          >
             Edit Category
           </DropdownMenuItem>
         </DropdownMenuContent>

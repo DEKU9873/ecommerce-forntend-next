@@ -5,10 +5,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { MoreHorizontal } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 
-import UpdateCategoryDialog from "./UpdateProductDialog";
 import { IProduct } from "@/types/product";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import useModalStore from "@/store/modal.store";
+import UpdateProductDialog from "./UpdateProductDialog";
 
 
 interface ProductActionsProps {
@@ -17,54 +17,30 @@ interface ProductActionsProps {
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
     const route = useRouter();
- const [deleteModal, setDeleteModal] = useState(false);
-        const [editModal, setEditModal] = useState(false);
-        const [selectedItem, setSelectedItem] = useState<IProduct | null>(null);
-      
-        const handleOpenDeleteModal = () => {
-          setDeleteModal(true);
-        };
-      
-        const handleDeleteConfirm = () => {
-          console.log(`Deleting product with ID: ${product.id}`);
-          setDeleteModal(false);
-        };
-      
+    const { isOpen, type, data, openModal, closeModal } = useModalStore();
 
-        const handleCloseDeleteModal = () => {
-          setDeleteModal(false);
-        };
-      
-        const handleOpenEditModal = () => {
-          setSelectedItem(product);
-          setEditModal(true);
-        };
-      
-        const handleCloseEditModal = () => {
-          setEditModal(false);
-        };
-   
-
+    const handleDeleteConfirm = () => {
+        console.log(`Deleting category with ID: ${data.id}`);
+        closeModal();
+    };
 
     return (
         <>
-            {deleteModal && (
+            {isOpen && type === "delete" && (
                 <DeleteConfirmationDialog
-                    isOpen={deleteModal}
-                    onClose={handleCloseDeleteModal}
+                    isOpen={true}
+                    onClose={closeModal}
                     onConfirm={handleDeleteConfirm}
                 />
             )}
 
-            {
-                editModal && selectedItem && (
-                    <UpdateCategoryDialog
-                        data={selectedItem}
-                        isOpen={editModal}
-                        onClose={handleCloseEditModal}
-                    />
-                )
-            }
+            {isOpen && type === "edit" && data && (
+                <UpdateProductDialog
+                    data={data}
+                    isOpen={true}
+                    onClose={closeModal}
+                />
+            )}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
@@ -82,13 +58,19 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
                     <DropdownMenuItem
                         onClick={() => route.push(`/products/id`)}
                     >
-                       View product
+                        View product
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleOpenDeleteModal} className="text-destructive">
+                    <DropdownMenuItem
+                        onClick={() => openModal("delete", product)}
+                        className="text-destructive"
+                    >
                         Delete product
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleOpenEditModal} >
+
+                    <DropdownMenuItem
+                        onClick={() => openModal("edit", product)}
+                    >
                         Edit product
                     </DropdownMenuItem>
                 </DropdownMenuContent>

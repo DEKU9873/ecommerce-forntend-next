@@ -1,25 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
-  FeatureGroup,
-  CircleMarker,
+
 } from "react-leaflet";
-import { EditControl } from "react-leaflet-draw";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "leaflet-fullscreen";
 import { useMap } from "react-leaflet";
-import { GeoJSON, Polyline } from "react-leaflet";
-import type { FeatureCollection } from "geojson";
+
 import "leaflet-polylinedecorator";
-import { MoveHorizontal, Trash2 } from "lucide-react";
 
 interface Driver {
   id: string;
@@ -94,6 +90,7 @@ export default function Map() {
     popupAnchor: [0, -35],
   });
 
+
   return (
     <MapContainer
       key="unique-map-id"
@@ -106,6 +103,12 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
+       <Marker
+        position={position}
+        draggable
+      >
+        <Popup>مركز الخريطة</Popup>
+      </Marker>
       {/* Drivers */}
       {distinctDrivers.map((driver) => (
         <Marker key={driver.id} position={driver.position} icon={driverIcon}>
