@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/table";
 
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import TablePagination from "./table-pagination";
 
 
 interface DataTableProps<TData> {
@@ -70,6 +71,9 @@ export function DataTable<TData>({
       rowSelection,
     },
   });
+
+  const selectedCount = table.getSelectedRowModel().rows.length;
+
 
   return (
     <div className="w-full">
@@ -127,74 +131,7 @@ export function DataTable<TData>({
         </Table>
       </div>
 
-      {/* Pagination */}
-      <div className="flex items-center justify-between py-4 px-2">
-        <div className="text-sm text-muted-foreground">
-          0 of {data.length} row(s) selected.
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <span className="text-sm font-semibold">Rows per page</span>
-          <Select
-            value={pageSize.toString()}
-            onValueChange={(value) => onPageSizeChange?.(parseInt(value))}
-          >
-            <SelectTrigger className="w-20 h-8">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="20">20</SelectItem>
-              <SelectItem value="50">50</SelectItem>
-              <SelectItem value="100">100</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <span className="text-sm font-semibold">
-            Page {currentPage} of {totalPages}
-          </span>
-
-          <div className="flex items-center space-x-1">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(1)}
-              disabled={currentPage === 1}
-              className="h-8 w-8 p-0"
-            >
-              <ChevronsLeft />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="h-8 w-8 p-0"
-            >
-              <ChevronLeft/>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="h-8 w-8 p-0"
-            >
-              <ChevronRight />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(totalPages)}
-              disabled={currentPage === totalPages}
-              className="h-8 w-8 p-0"
-            >
-              <ChevronsRight />
-            </Button>
-          </div>
-        </div>
-      </div>
+<TablePagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} pageSize={pageSize} onPageSizeChange={onPageSizeChange} rowSelection={rowSelection.length} selectedCount={selectedCount}/>
     </div>
   );
 }

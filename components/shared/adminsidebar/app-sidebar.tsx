@@ -5,6 +5,8 @@ import {
 
     Command,
 
+    MapPin,
+
     Settings2,
    
     Store,
@@ -43,7 +45,14 @@ const data = {
                 { title: "Subcategories", url: "/admin/subcategories" },
                 { title: "Brands", url: "/admin/brands" },
                 { title: "Orders", url: "/admin/orders" },
-                { title: "Delivery Map", url: "/admin/delivery-map" },
+            ],
+        },
+        {
+            title: "Tracking",
+            url: "#",
+            icon: MapPin,
+            items: [
+               { title: "Delivery Map", url: "/admin/delivery-map" },
                 { title: "Delivery Path", url: "/admin/delivery-path" },
             ],
         },
@@ -52,8 +61,10 @@ const data = {
             url: "#",
             icon: User,
             items: [
-                { title: "Users", url: "/users" },
-                { title: "Activity Logs", url: "/logs" },
+                { title: "Customers", url: "/admin/customers" },
+                { title: "Vendors", url: "/admin/vendors" },
+                { title: "Drivers", url: "/admin/drivers" },
+                { title: "Activity Logs", url: "/admin/activity-logs" },
             ],
         },
 
@@ -63,9 +74,10 @@ const data = {
             icon: Settings2,
             items: [
                 {
-                    title: "General",
+                    title: "General Settings",
                     url: "#",
                 },
+                { title: "Map Settings", url: "#" },
          
             ],
         },
