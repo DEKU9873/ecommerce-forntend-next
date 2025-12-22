@@ -1,8 +1,8 @@
-import { ICustomer } from "./customer";
+import { IUser } from "./user";
 
 export interface IVendor {
   id: string;
-  user: ICustomer;
+  user: IUser;
 
   storeName: string;
   storeDescription: string;

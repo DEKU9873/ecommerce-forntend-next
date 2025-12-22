@@ -2,10 +2,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { ColumnDef } from '@tanstack/react-table';
 
 import { ArrowUpDown } from 'lucide-react';
-import { ICustomer } from '@/types/customer';
-import CustomerActions from './CustomerActions';
 
-export const customerColumns: ColumnDef<ICustomer>[] = [
+import UserActions from './UserActions';
+import { IUser } from '@/types/user';
+
+export const userColumns: ColumnDef<IUser>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,8 +34,7 @@ export const customerColumns: ColumnDef<ICustomer>[] = [
     header: "ID",
     cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
   },
-
-   {
+  {
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -47,13 +47,11 @@ export const customerColumns: ColumnDef<ICustomer>[] = [
         </div>
       )
     },
-    cell: ({ row }) => {
-     const user = row.original.user;
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
 
-      return <div className="capitalize">{user?.name}</div>;
-    },
+
   },
-   {
+  {
     accessorKey: "email",
     header: ({ column }) => {
       return (
@@ -66,14 +64,12 @@ export const customerColumns: ColumnDef<ICustomer>[] = [
         </div>
       )
     },
-    cell: ({ row }) => {
-     const user = row.original.user;
+    cell: ({ row }) => <div className="capitalize">{row.getValue("email")}</div>,
 
-      return <div className="capitalize">{user?.email}</div>;
-    },
+
   },
-   {
-    accessorKey: "Phone",
+  {
+    accessorKey: "phone",
     header: ({ column }) => {
       return (
         <div
@@ -85,15 +81,10 @@ export const customerColumns: ColumnDef<ICustomer>[] = [
         </div>
       )
     },
-    cell: ({ row }) => {
-     const user = row.original.user;
+    cell: ({ row }) => <div className="capitalize">{row.getValue("phone")}</div>,
 
-      return <div className="capitalize">{user?.phone}</div>;
-    },
+
   },
-
-
-
 
   {
     accessorKey: "createAt",
@@ -130,7 +121,7 @@ export const customerColumns: ColumnDef<ICustomer>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => <CustomerActions customer={row.original} />,
+    cell: ({ row }) => <UserActions user={row.original} />,
   },
 ];
 

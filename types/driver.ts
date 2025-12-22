@@ -1,8 +1,8 @@
-import { ICustomer } from "./customer";
+import { IUser } from "./user";
 
 export interface IDriver {
   id: string;
-  user: ICustomer;
+  user: IUser;
 
   vehicleType: string;
   vehicleNumber: string;

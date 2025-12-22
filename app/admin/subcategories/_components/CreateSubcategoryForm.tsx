@@ -56,7 +56,6 @@ const CreateSubcategoryForm = ({closeModal}:{closeModal:()=>void}) => {
               )}
             />
 
-            {/* التصنيف */}
             <FormField
               control={form.control}
               name="category"

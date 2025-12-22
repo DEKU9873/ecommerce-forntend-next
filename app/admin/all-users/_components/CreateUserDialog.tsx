@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import useModalStore from "@/store/modal.store";
-import CreateCategoryForm from "./CreateCustomerForm";
+import CreateCategoryForm from "./CreateUserForm";
 import { Plus } from "lucide-react";
 
 
-const CreateCustomerDialog = () => {
+const CreateUserDialog = () => {
   const { isOpen, type, openModal, closeModal } = useModalStore();
 
 
@@ -31,15 +31,15 @@ const CreateCustomerDialog = () => {
         >
           <Plus />
 
-          Add Customer
+          Add User
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="lg:min-w-[1100px] md:min-w-[650px]">
         <DialogHeader>
           <DialogTitle className="text-center font-bold text-xl font-cairo text-sidebar-foreground/70">
           
-            Add Customer
+            Add User
           </DialogTitle>
         </DialogHeader>
         <CreateCategoryForm closeModal={closeModal} />
@@ -48,4 +48,4 @@ const CreateCustomerDialog = () => {
   );
 };
 
-export default CreateCustomerDialog;
+export default CreateUserDialog;

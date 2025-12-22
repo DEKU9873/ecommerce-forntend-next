@@ -21,7 +21,6 @@ const VendorsPage = () => {
             <Input placeholder="Search..." className="w-70" />
           </div>
         </div>
-        <div className="w-[300px] space-y-4"></div>
       </DataTable>
     </div>
   )

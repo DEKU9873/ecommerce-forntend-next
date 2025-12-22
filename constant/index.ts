@@ -16,3 +16,10 @@
     { value: "delivered", label: "Delivered" },
     { value: "undelivered", label: "Undelivered" },
   ];
+
+export const Roles = [
+    { value: "admin", label: "Admin" },
+    { value: "customer", label: "Customer" },
+    { value: "vendor", label: "Vendor" },
+    { value: "driver", label: "Driver" },
+  ];

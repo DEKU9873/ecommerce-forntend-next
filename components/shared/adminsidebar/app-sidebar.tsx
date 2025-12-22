@@ -61,6 +61,7 @@ const data = {
             url: "#",
             icon: User,
             items: [
+                { title: "All Users", url: "/admin/all-users" },
                 { title: "Customers", url: "/admin/customers" },
                 { title: "Vendors", url: "/admin/vendors" },
                 { title: "Drivers", url: "/admin/drivers" },

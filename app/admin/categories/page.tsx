@@ -23,7 +23,6 @@ const CategoriesPage = () => {
           </div>
           <CreateCategoryDialog />
         </div>
-        <div className="w-[300px] space-y-4"></div>
       </DataTable>
     </div>
   );
