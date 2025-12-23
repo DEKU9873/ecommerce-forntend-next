@@ -1,6 +1,6 @@
 import { IUser } from "./user";
 
-export interface IVendor {
+export interface IStore {
   id: string;
   user: IUser;
 

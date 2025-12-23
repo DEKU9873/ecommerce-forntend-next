@@ -1,4 +1,4 @@
-export const vendors = [
+export const stores = [
   {
     id: "1",
     user:    {

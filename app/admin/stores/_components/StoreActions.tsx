@@ -14,9 +14,9 @@ import { MoreHorizontal } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 
 import useModalStore from "@/store/modal.store";
-import { IDriver } from "@/types/driver";
+import { IStore } from "@/types/store";
 
-const DriverActions = ({ driver }: { driver: IDriver }) => {
+const StoreActions = ({ vendor }: { vendor: IStore }) => {
   const { isOpen, type, data, openModal, closeModal } = useModalStore();
 
   const handleDeleteConfirm = () => {
@@ -48,18 +48,18 @@ const DriverActions = ({ driver }: { driver: IDriver }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(driver.id)}
+            onClick={() => navigator.clipboard.writeText(vendor.id)}
           >
-            Copy driver ID
+            Copy vendor ID
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => openModal("delete", driver)}
+            onClick={() => openModal("delete", vendor)}
             className="text-destructive"
           >
-            Delete driver
+            Delete vendor
           </DropdownMenuItem>
 
  
@@ -69,4 +69,4 @@ const DriverActions = ({ driver }: { driver: IDriver }) => {
   );
 };
 
-export default DriverActions;
+export default StoreActions;

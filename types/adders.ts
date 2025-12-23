@@ -1,12 +1,12 @@
+import { IUser } from "./user";
+
 export interface IAddress {
-  _id: string;
-  user: string;
-  fullName: string;
-  phoneNumber: string;
+  id: string;
+  user: IUser;
+  title: string;
   city: string;
   address: string;
-  postalCode: string;
-  isDefault: boolean;
+  posetion: [number, number];
   createdAt?: string;  
   updatedAt?: string;   
 }

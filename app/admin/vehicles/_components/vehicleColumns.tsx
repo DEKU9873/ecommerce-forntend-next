@@ -1,12 +1,12 @@
-import { Checkbox } from '@/components/ui/checkbox';
-import type { ColumnDef } from '@tanstack/react-table';
+import { Checkbox } from "@/components/ui/checkbox";
+import type { ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown } from "lucide-react";
 
-import { IVendor } from '@/types/vendor';
-import VendorActions from './VendorActions';
+import { IVehicle } from "@/types/vehicle";
+import VehicleActions from "./VehicleActions";
 
-export const vendorColumns: ColumnDef<IVendor>[] = [
+export const vehicleColumns: ColumnDef<IVehicle>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -34,135 +34,117 @@ export const vendorColumns: ColumnDef<IVendor>[] = [
     header: "ID",
     cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
   },
- {
-    accessorKey: "ownerName",
+  {
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Owner Name
+          Driver Name
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
     cell: ({ row }) => {
-     const user = row.original.user;
+      const user = row.original.user;
 
       return <div className="capitalize">{user?.name}</div>;
     },
-
-
   },
 
   {
-    accessorKey: "storeName",
+    accessorKey: "phone",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Stor Name
+          Phone
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("storeName")}</div>,
+    cell: ({ row }) => {
+      const user = row.original.user;
 
-
+      return <div className="capitalize">{user?.phone}</div>;
+    },
   },
   {
-    accessorKey: "storeEmail",
+    accessorKey: "vehicleType",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Stor Email
+          Vhicle Type
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("storeEmail")}</div>,
-
-
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("vehicleType")}</div>
+    ),
   },
   {
-    accessorKey: "storePhone",
+    accessorKey: "vehicleNumber",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Stor Phone
+          Vehicle Number
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("storePhone")}</div>,
-
-
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("vehicleNumber")}</div>
+    ),
   },
-  {
-    accessorKey: "storeAddress",
-    header: ({ column }) => {
-      return (
-        <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-         Stor Address
-          <ArrowUpDown size={18} />
-        </div>
-      )
-    },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("storeAddress")}</div>,
-
-
-  },
-  
-
 
   {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Create At
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("createdAt")}</div>,
-
-
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("createdAt")}</div>
+    ),
   },
   {
     accessorKey: "updatedAt",
     header: ({ column }) => {
       return (
         <div
-          className='flex  items-center gap-2 hover:text-primary cursor-pointer'
+          className="flex  items-center gap-2 hover:text-primary cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Update At
           <ArrowUpDown size={18} />
         </div>
-      )
+      );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("updatedAt")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("updatedAt")}</div>
+    ),
   },
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => <VendorActions vendor={row.original} />,
+    cell: ({ row }) => <VehicleActions driver={row.original} />,
   },
 ];
-

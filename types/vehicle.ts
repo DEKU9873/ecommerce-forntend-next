@@ -1,6 +1,6 @@
 import { IUser } from "./user";
 
-export interface IDriver {
+export interface IVehicle {
   id: string;
   user: IUser;
 
